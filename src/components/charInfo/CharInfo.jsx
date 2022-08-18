@@ -1,86 +1,64 @@
-import './charInfo.scss';
-import { Component } from 'react';
-import MarvelService from '../../services/MarvelService';
-import Preloader from '../preloader/Preloader';
-import Error from '../error/Error';
-import CharBasics from './charBasics/CharBasics';
-import Skeleton from '../skeleton/Skeleton';
+import "./charInfo.scss";
+import { useEffect, useState } from "react";
+import Preloader from "../preloader/Preloader";
+import Error from "../error/Error";
+import CharBasics from "./charBasics/CharBasics";
+import Skeleton from "../skeleton/Skeleton";
+import useMarvelService from "../../services/MarvelService";
+import { CSSTransition } from "react-transition-group";
 
-const marvelService = new MarvelService();
+const CharInfo = ({ selectedCharId }) => {
+    const { loader, error, getCharacterByIdData, clearError } =
+        useMarvelService();
+    const [character, setCharacter] = useState(null);
+    const [showInfo, setShowInfo] = useState(false);
 
-class CharInfo extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            character: null,
-            loader: '',
-            error: '',
-        }
-    }
+    useEffect(() => {
+        getCharacter();
+    }, [selectedCharId]);
 
+    useEffect(() => {
+        setShowInfo(true);
+    }, []);
 
-    componentDidMount = () => {
-        this.getCharacter();
-    }
+    const updateCharacter = (character) => {
+        setCharacter((char) => character);
+    };
 
-    componentDidUpdate = (prevProp) => {
-        if (prevProp.selectedCharId !== this.props.selectedCharId) {
-            this.getCharacter();
-        }
-    }
-
-
-    updateCharacter = (character) => {
-        this.setState(state => ({ character }));
-    }
-
-    onCharLoader = () => {
-        this.setState(state => ({ loader: !this.state.loader }));
-    }
-
-    onError = () => {
-        this.setState(state => ({ loader: !this.state.loader, error: true }));
-    }
-
-    getCharacter = () => {
-        if (!this.props.selectedCharId) {
+    const getCharacter = () => {
+        if (!selectedCharId) {
             return;
         }
-        this.onCharLoader();
-
-        marvelService.getCharacterById(this.props.selectedCharId)
-            .then(data => this.updateCharacter(data))
-            .then(() => this.onCharLoader())
-            .catch((e) => this.onError())
-    }
-
-    componentWillUnmount() {
-        this.setState(state => ({ error: '', loader: '' }));
-    }
-
-
-    render() {
-        const { character, loader, error } = this.state;
-
-        const preloader = (loader) && <Preloader />;
-        const isError = (error) && <Error />;
-        const skeleton = (!character && !error && !loader) && <Skeleton />;
-
-        return (
-            <div className="char__info">
-                {(character && !loader && !error) ?
-                    
-                    <CharBasics character={character} />
-                    :
-                    <>
-                        {skeleton}
-                        {preloader}
-                        {isError}
-                    </>
-                }
-            </div >
+        clearError();
+        getCharacterByIdData(selectedCharId).then((data) =>
+            updateCharacter(data)
         );
-    }
-}
+        setShowInfo(true);
+    };
+
+    const preloader = loader && <Preloader />;
+    const isError = error && <Error />;
+    const skeleton = !character && !error && !loader && <Skeleton />;
+    const char = character && !loader && !error && (
+        <CharBasics character={character} />
+    );
+
+    const duration = 1400;
+
+    return (
+        <CSSTransition
+            in={showInfo}
+            mountOnEnter
+            timeout={duration}
+            classNames='my-info'>
+            <div className='char__info'>
+                {char}
+                {skeleton}
+                {preloader}
+                {isError}
+            </div>
+        </CSSTransition>
+    );
+};
 
 export default CharInfo;

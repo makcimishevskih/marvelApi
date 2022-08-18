@@ -5,8 +5,9 @@
     height: 260px;
     grid-template-columns: repeat(2, 50%);
     
-    box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.25);
+    box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.35);
     &__block {
+        background-color: #fff;
         padding: 40px 35px;
         display: grid;
         grid-template-columns: 180px auto;

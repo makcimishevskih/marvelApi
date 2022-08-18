@@ -1,101 +1,105 @@
-import './comicsList.scss';
-import uw from '../../resources/img/UW.png';
-import xMen from '../../resources/img/x-men.png';
-import MarvelService from '../../services/MarvelService';
-import { useEffect } from 'react';
+import "./comicsList.scss";
+import useMarvelService from "../../services/MarvelService";
+import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
+import { CSSTransition, TransitionGroup } from "react-transition-group";
+import Preloader from "../preloader/Preloader";
+import Error from "../error/Error";
 
-const marvelService = new MarvelService();
+const ComicsList = ({ comicsList, updateComicsList }) => {
+    const { loader, error, clearError, getAllComicsData } = useMarvelService();
+    const [offset, setOffset] = useState(200);
+    const [newComics, setNewComics] = useState(false);
+    const [disabled, setDisabled] = useState(false);
+    const [delayCounter, setDelayCounter] = useState(0);
 
-
-const ComicsList = ({ comicsesList, updateComicsList }) => {
 
     useEffect(() => {
-        getAllComics();
+        getAllComics(true);
     }, []);
 
-    getAllComics = () => {
-        marvelService.getAllComicses().then(data => updateComicsList(data.data.results));
-    }
+    const getAllComics = (initial) => {
+        clearError();
+        initial ? setNewComics(false) : setNewComics(true);
+        getAllComicsData(offset)
+            .then((comicsData) => updateComicsList(comicsData.data.results))
+            .then(() => finallyUpdate());
+    };
 
-    
-    const comics = comicsesList.map(el => {
-        return (
-            <li className="comics__item">
-                <a href="#">
-                    <img src={`${el.thumbnail.path}.${el.thumbnail.extension}`} alt={el.name} className="comics__item-img" />
-                    <div className="comics__item-name">{el.title}</div>
-                    <div className="comics__item-price">{el.price}$</div>
-                </a>
-            </li>
-        );
-    })
+    const finallyUpdate = () => {
+        setOffset(offset + 8);
+        setDisabled(false);
+        setNewComics(true);
+    };
 
+    const updateComicsHandler = () => {
+        setInProp(!inProp);
+        setDisabled(true);
+        setDelayCounter((delayCounter) => delayCounter + 1);
+        getAllComics();
+    };
+
+    const preloader = loader && !newComics ? <Preloader /> : null;
+
+    const errorComp = error && <Error />;
+
+    const [inProp, setInProp] = useState(false);
+
+    const durationComics = 1000;
+    let delayIndex = -1;
+    const delayJump = 100;
+    let delayDifference = delayCounter * 800;
 
     return (
-        <div className="comics__list">
-            <ul className="comics__grid">
-                <li className="comics__item">
-                    <a href="#">
-                        <img src={uw} alt="ultimate war" className="comics__item-img" />
-                        <div className="comics__item-name">ULTIMATE X-MEN VOL. 5: ULTIMATE WAR TPB</div>
-                        <div className="comics__item-price">9.99$</div>
-                    </a>
-                </li>
-                <li className="comics__item">
-                    <a href="#">
-                        <img src={xMen} alt="x-men" className="comics__item-img" />
-                        <div className="comics__item-name">X-Men: Days of Future Past</div>
-                        <div className="comics__item-price">NOT AVAILABLE</div>
-                    </a>
-                </li>
-                <li className="comics__item">
-                    <a href="#">
-                        <img src={uw} alt="ultimate war" className="comics__item-img" />
-                        <div className="comics__item-name">ULTIMATE X-MEN VOL. 5: ULTIMATE WAR TPB</div>
-                        <div className="comics__item-price">9.99$</div>
-                    </a>
-                </li>
-                <li className="comics__item">
-                    <a href="#">
-                        <img src={xMen} alt="x-men" className="comics__item-img" />
-                        <div className="comics__item-name">X-Men: Days of Future Past</div>
-                        <div className="comics__item-price">NOT AVAILABLE</div>
-                    </a>
-                </li>
-                <li className="comics__item">
-                    <a href="#">
-                        <img src={uw} alt="ultimate war" className="comics__item-img" />
-                        <div className="comics__item-name">ULTIMATE X-MEN VOL. 5: ULTIMATE WAR TPB</div>
-                        <div className="comics__item-price">9.99$</div>
-                    </a>
-                </li>
-                <li className="comics__item">
-                    <a href="#">
-                        <img src={xMen} alt="x-men" className="comics__item-img" />
-                        <div className="comics__item-name">X-Men: Days of Future Past</div>
-                        <div className="comics__item-price">NOT AVAILABLE</div>
-                    </a>
-                </li>
-                <li className="comics__item">
-                    <a href="#">
-                        <img src={uw} alt="ultimate war" className="comics__item-img" />
-                        <div className="comics__item-name">ULTIMATE X-MEN VOL. 5: ULTIMATE WAR TPB</div>
-                        <div className="comics__item-price">9.99$</div>
-                    </a>
-                </li>
-                <li className="comics__item">
-                    <a href="#">
-                        <img src={xMen} alt="x-men" className="comics__item-img" />
-                        <div className="comics__item-name">X-Men: Days of Future Past</div>
-                        <div className="comics__item-price">NOT AVAILABLE</div>
-                    </a>
-                </li>
-            </ul>
-            <button className="button button__main button__long">
-                <div className="inner">load more</div>
-            </button>
+        <div className='comics__list'>
+            <TransitionGroup className='comics__grid'>
+                {comicsList.map((el, i) => {
+                    delayIndex += newComics ? 1 : 0;
+                    const delay = Math.floor(
+                        Math.max(0, delayIndex * delayJump - delayDifference)
+                    );
+                    return (
+                        <CSSTransition
+                            key={el.id}
+                            classNames='my-comics'
+                            timeout={durationComics + delay}>
+                            <li
+                                className='comics__item'
+                                style={{ transitionDelay: `${delay}ms` }}>
+                                <Link to={`/comics/${el.id}`}>
+                                    <img
+                                        src={`${el.thumbnail.path}.${el.thumbnail.extension}`}
+                                        alt={el.name}
+                                        className='comics__item-img'
+                                    />
+                                    <div className='comics__item-name'>
+                                        {el.title}
+                                    </div>
+                                    <div className='comics__item-price'>
+                                        {!el.price
+                                            ? "Not Available"
+                                            : `${el.price}$`}
+                                    </div>
+                                </Link>
+                            </li>
+                        </CSSTransition>
+                    );
+                })}
+                {errorComp}
+            </TransitionGroup>
+
+            {preloader}
+
+            {newComics && (
+                <button
+                    disabled={disabled}
+                    onClick={updateComicsHandler}
+                    className='button button__main button__long'>
+                    <div className='inner'>load more</div>
+                </button>
+            )}
         </div>
-    )
-}
+    );
+};
 
 export default ComicsList;

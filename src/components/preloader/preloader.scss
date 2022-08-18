@@ -1,15 +1,16 @@
 @import '../../style/variables.scss';
 
-.wrapper {
+.preloader__wrapper {
     display: flex;
     justify-content: center;
     align-items: center;
+    margin: 0px auto 15px;
     .preloader {
         text-align: center;
-        height: 100px;
-        width: 100px;
-        border: 20px dashed pink;
-        border-radius: 10px;
+        height: 60px;
+        width: 60px;
+        border: 10px dashed rgb(223, 131, 146);
+        border-radius: 15px;
         animation: spinner 0.5s infinite;
     }
 }

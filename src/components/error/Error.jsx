@@ -1,10 +1,8 @@
-import gif from '../../resources/error.gif';
-import './error.scss';
+import gif from "../../resources/error.gif";
+import "./error.scss";
 
 const Error = () => {
-    return (
-        <img className='error__img' src={gif} alt="Error" />
-    )
-}
+    return <img className='error__img' src={gif} alt='Error' />;
+};
 
 export default Error;

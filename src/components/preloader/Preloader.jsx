@@ -1,13 +1,13 @@
-import { Component } from 'react';
-import './preloader.scss';
-
+import "./preloader.scss";
+import { Grid } from "react-loader-spinner";
+import "../../style/variables.scss";
 
 const Preloader = () => {
     return (
-        <div className='wrapper'>
-            <div className='preloader'></div>
+        <div className='preloader__wrapper'>
+            <Grid wrapperStyle color='#e83146' height={80} width={80} />
         </div>
-    )
-}
+    );
+};
 
 export default Preloader;

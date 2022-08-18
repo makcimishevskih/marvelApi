@@ -1,20 +1,18 @@
 import './randomChar.scss';
 import mjolnir from '../../resources/img/mjolnir.png';
 import { useEffect, useState } from 'react';
-import MarvelService from '../../services/MarvelService';
+import useMarvelService from '../../services/MarvelService';
 import Preloader from '../preloader/Preloader';
 import Error from '../error/Error';
 import PropTypes from 'prop-types';
 
 
 const RandomChar = () => {
-    const marvelService = new MarvelService();
+    const {error, loader, getRandomCharacter, clearError } = useMarvelService();
 
-    const [loader, setLoader] = useState(true);
-    const [error, setError] = useState(false);
     const [timer, setTimer] = useState(100000);
     const [randomChar, setRandomChar] = useState({})
-
+    
 
     useEffect(() => {
         getRandomChar();
@@ -30,24 +28,18 @@ const RandomChar = () => {
     }, [timer]);
 
 
-    const onError = () => {
-        setLoader(false);
-        setError(true);
-    }
-
     const updateRandomChar = (randomChar) => {
         setRandomChar(randomChar);
     }
 
     const getRandomChar = () => {
-        setLoader(true);
-        marvelService.getRandomChar().then(response => updateRandomChar(response))
-            .catch(onError)
-            .finally(() => setLoader(false));
+        clearError();
+        getRandomCharacter()
+        .then(response => updateRandomChar(response))
     }
 
 
-    const { description, name, homepage, wiki, thumbnail } = randomChar;
+    const { description, title, homepage, wiki, thumbnail } = randomChar;
 
     const err = (error) && <Error />;
     const preloader = (loader) && <Preloader />;
@@ -61,7 +53,7 @@ const RandomChar = () => {
             {(!loader && !error) ? <div className="randomchar__block">
                 <img style={imageStyle} src={thumbnail} alt="Random character" className="randomchar__img" />
                 <div className="randomchar__info">
-                    <p className="randomchar__name">{name}</p>
+                    <p className="randomchar__name">{title}</p>
                     <p className="randomchar__descr">
                         {description}
                     </p>
