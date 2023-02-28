@@ -1,5 +1,4 @@
 import { useState, useEffect, useCallback } from "react";
-import { flushSync } from "react-dom";
 
 export const useHttp = () => {
     const [loader, setLoader] = useState(false);
@@ -27,8 +26,6 @@ export const useHttp = () => {
                         `Could not fetch ${url} , status: ${response.status}`
                     );
                 }
-
-                console.log(response.status);
 
                 const data = await response.json();
                 setLoader(false);
@@ -83,8 +80,8 @@ export const useUpdateList = () => {
     }, []);
 
     return {
-        charList,
         search,
+        charList,
         setCharList,
         updateCharList,
     };

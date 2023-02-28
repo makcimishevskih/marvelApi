@@ -8,7 +8,6 @@ import PropTypes from "prop-types";
 import { useUpdateList } from "../../hooks/http.hook";
 import { TransitionGroup, CSSTransition } from "react-transition-group";
 
-// Логика красивого появления персонажей react-transition-group
 
 const CharList = ({ selectedCharId, updateSelectedChar }) => {
     const { loader, error, getAllCharactersData } = useMarvelService();

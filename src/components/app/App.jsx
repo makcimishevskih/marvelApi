@@ -11,9 +11,6 @@ const ComicsPage = lazy(() => import("../pages/ComicsPage"));
 const Page404 = lazy(() => import("../pages/Page404"));
 const SinglePage = lazy(() => import("../pages/SinglePage"));
 
-
-// ГЛЯНУТЬ АКТИВНЫЙ CHARACTER ПРИ АКТИВНОМ СИНГЛЧАР ПОСЛЕ ФОРМЫ
-
 const App = () => {
     const { charList, search, setCharList, updateCharList, clearCharList } =
         useUpdateList();

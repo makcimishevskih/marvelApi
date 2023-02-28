@@ -7,20 +7,6 @@ const useMarvelService = () => {
     const _Apibase = "https://gateway.marvel.com:443/v1/public/";
     const _baseOffset = 660;
 
-    // const postData = async (url, data) => {
-    //     const response = await fetch(url, {
-    //         method: 'POST',
-    //         headers: {
-    //             'Content-Type': 'application/json'
-    //         },
-    //         body: data,
-    //     })
-
-    //     if (!response.ok) {
-    //         throw new Error(`Dont fetch - ${url} with data - ${data}`)
-    //     }
-    // }
-
     // Characters
 
     const getAllChars = async (name) => {
@@ -54,16 +40,11 @@ const useMarvelService = () => {
         return _transformChar(response.data.results[0]);
     };
 
-    const getComicsForCharacter = (id) => {
-        return request(`${_Apibase}characters/${id}/comics?${_Apikey}`);
-    };
-
     // Comicses
     const getAllComicsData = (offset = 200) => {
         return request(`${_Apibase}comics?limit=8&offset=${offset}&${_Apikey}`);
     };
     const getComicsByIdData = async (id) => {
-        console.log(id);
         const response = await request(`${_Apibase}comics/${id}?${_Apikey}`);
         return _transformComics(response.data.results[0]);
     };
@@ -100,17 +81,15 @@ const useMarvelService = () => {
     };
 
     return {
+        getAllChars,
         getRandomCharacter,
         getAllCharactersData,
         getCharacterByIdData,
-        getComicsByIdData,
         getAllComicsData,
+        getComicsByIdData,
         clearError,
         loader,
         error,
-        getAllChars,
-        // getComicsForCharacter,
-        // postData,
     };
 };
 
