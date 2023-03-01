@@ -1,0 +1,1 @@
+{"version":3,"file":"static/css/735.182bd66f.chunk.css","mappings":"AAAA,YAEI,aACA,iBAFA,UAEA","sources":["components/error/error.scss"],"sourcesContent":[".error__img {\r\n    width: 100%;\r\n    height: 260px;\r\n    object-fit: cover;\r\n}"],"names":[],"sourceRoot":""}
