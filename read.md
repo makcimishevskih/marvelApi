@@ -1,4 +1,4 @@
-{
+<!-- {
     "env": {
         "browser": true,
         "es2021": true
@@ -25,4 +25,4 @@
         "no-duplicate-imports": "error",
         "no-unused-vars": 0
     }
-}
+} -->
