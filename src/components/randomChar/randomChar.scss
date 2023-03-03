@@ -1,68 +1,139 @@
-@import '../../style/variables.scss';
+@import "../../style/variables.scss";
 
 .randomchar {
+  display: grid;
+  grid-template-columns: 55% 45%;
+
+  box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.35);
+  &__block {
     display: grid;
-    height: 260px;
-    grid-template-columns: repeat(2, 50%);
-    
-    box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.35);
-    &__block {
-        background-color: #fff;
-        padding: 40px 35px;
-        display: grid;
-        grid-template-columns: 180px auto;
-        column-gap: 30px;
+    grid-template-columns: 180px auto;
+    column-gap: 15px;
+
+    padding: 30px 10px 30px 30px;
+
+    background-color: #fff;
+  }
+  &__img {
+    width: 180px;
+    height: 180px;
+    object-fit: cover;
+  }
+  &__info {
+    min-height: 200px;
+    display: grid;
+    grid-template-rows: 50px auto 100px;
+    align-items: center;
+  }
+  &__name {
+    font-size: 22px;
+    line-height: 29px;
+    font-weight: bold;
+    text-transform: uppercase;
+  }
+  &__btns {
+    display: flex;
+    flex-wrap: wrap;
+    a:nth-child(1) {
+      margin-right: 5px;
+      margin-bottom: 5px;
     }
-    &__img {
-        width: 180px;
-        height: 180px;
-        object-fit: cover;
+  }
+
+  &__static {
+    position: relative;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    padding: 30px;
+
+    overflow: hidden;
+    background-color: $dark;
+    button {
+      position: relative;
+      z-index: 2;
+
+      max-width: 100px;
+      margin-top: 10px;
     }
-    &__info {
-        display: grid;
-        grid-template-rows: minmax(29px, auto) auto 38px;
-        row-gap: 10px;
-        padding-top: 3px;
+  }
+  &__title {
+    position: relative;
+    z-index: 2;
+
+    font-size: 24px;
+    line-height: 32px;
+    letter-spacing: -0.045em;
+    font-weight: bold;
+    color: #ffffff;
+
+    &:nth-child(1) {
+      margin-bottom: 25px;
     }
+  }
+
+  &__decoration {
+    position: absolute;
+    bottom: 14px;
+    right: -37px;
+  }
+}
+
+@media (max-width: 768px) {
+  .randomchar {
     &__name {
-        font-weight: bold;
-        font-size: 22px;
-        line-height: 29px;
-        text-transform: uppercase;
-    }
-    &__descr {
-        font-size: 14px;
-        line-height: 18px;
+      font-size: 26px;
     }
     &__btns {
-        a:nth-child(1) {
-            margin-right: 30px;
-        }
+      a:nth-child(1) {
+        margin-bottom: 5px;
+      }
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .randomchar {
+    padding: 20px;
+
+    &__block {
+      display: grid;
+      grid-template-columns: none;
+      grid-template-rows: 200px minmax(150px, auto);
+      place-items: center;
+      padding: 20px;
+    }
+    &__img {
+      width: 200px;
+      height: 200px;
+    }
+    &__info {
+      display: block;
+    }
+    &__name {
+      margin-bottom: 5px;
+    }
+    &__descr {
+      margin-bottom: 20px;
+    }
+    &__btns {
+      display: flex;
+      justify-content: center;
     }
     &__static {
-        padding: 40px 35px;
-        background-color: $dark;
-        position: relative;
-        & > button {
-            position: absolute;
-            bottom: 40px;
-            left: 5%;
-        }
+      padding: 20px;
     }
-    &__title {
-        font-weight: bold;
-        font-size: 24px;
-        line-height: 32px;
-        letter-spacing: -0.045em;
-        color: #FFFFFF;
-        &:nth-child(1) {
-            margin-bottom: 33px;
-        }
-    }
+  }
+}
 
-    &__decoration {
-        position: absolute;
-        bottom: 14px;
-        right: -37px;
+@media (max-width: 320px) {
+  .randomchar {
+    &__block {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
     }
+  }
 }

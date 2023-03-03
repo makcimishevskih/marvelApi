@@ -1,26 +1,26 @@
-@import '../../style/variables.scss';
+@import "../../style/variables.scss";
 
 .preloader__wrapper {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: 0px auto 15px;
-    .preloader {
-        text-align: center;
-        height: 60px;
-        width: 60px;
-        border: 10px dashed rgb(223, 131, 146);
-        border-radius: 15px;
-        animation: spinner 0.5s infinite;
-    }
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0px auto 15px;
+  .preloader {
+    text-align: center;
+    height: 60px;
+    width: 60px;
+    border: 10px dashed rgb(223, 131, 146);
+    border-radius: 15px;
+    animation: spinner 0.5s infinite;
+  }
 }
 
 @keyframes spinner {
-    50% {
-        transform: rotate(360deg);
-    }
+  50% {
+    transform: rotate(360deg);
+  }
 
-    100% {
-        transform: rotate(0deg);
-    }
+  100% {
+    transform: rotate(0deg);
+  }
 }
