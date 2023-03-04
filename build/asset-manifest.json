@@ -1,9 +1,9 @@
 {
   "files": {
-    "main.css": "/static/css/main.512723f5.css",
-    "main.js": "/static/js/main.8a099d55.js",
-    "static/css/232.7963a8e1.chunk.css": "/static/css/232.7963a8e1.chunk.css",
-    "static/js/232.2dba3b87.chunk.js": "/static/js/232.2dba3b87.chunk.js",
+    "main.css": "/static/css/main.0d1e3acc.css",
+    "main.js": "/static/js/main.3e32fe5e.js",
+    "static/css/232.b00fcd65.chunk.css": "/static/css/232.b00fcd65.chunk.css",
+    "static/js/232.b574c7b6.chunk.js": "/static/js/232.b574c7b6.chunk.js",
     "static/css/114.4f9b9ee1.chunk.css": "/static/css/114.4f9b9ee1.chunk.css",
     "static/js/114.6f7fcb23.chunk.js": "/static/js/114.6f7fcb23.chunk.js",
     "static/css/735.182bd66f.chunk.css": "/static/css/735.182bd66f.chunk.css",
@@ -18,10 +18,10 @@
     "static/media/Avengers.png": "/static/media/Avengers.4065c8f9c94e3d8b039a.png",
     "static/media/Avengers_logo.png": "/static/media/Avengers_logo.9eaf219344d83362e830.png",
     "index.html": "/index.html",
-    "main.512723f5.css.map": "/static/css/main.512723f5.css.map",
-    "main.8a099d55.js.map": "/static/js/main.8a099d55.js.map",
-    "232.7963a8e1.chunk.css.map": "/static/css/232.7963a8e1.chunk.css.map",
-    "232.2dba3b87.chunk.js.map": "/static/js/232.2dba3b87.chunk.js.map",
+    "main.0d1e3acc.css.map": "/static/css/main.0d1e3acc.css.map",
+    "main.3e32fe5e.js.map": "/static/js/main.3e32fe5e.js.map",
+    "232.b00fcd65.chunk.css.map": "/static/css/232.b00fcd65.chunk.css.map",
+    "232.b574c7b6.chunk.js.map": "/static/js/232.b574c7b6.chunk.js.map",
     "114.4f9b9ee1.chunk.css.map": "/static/css/114.4f9b9ee1.chunk.css.map",
     "114.6f7fcb23.chunk.js.map": "/static/js/114.6f7fcb23.chunk.js.map",
     "735.182bd66f.chunk.css.map": "/static/css/735.182bd66f.chunk.css.map",
@@ -32,7 +32,7 @@
     "413.b804ea46.chunk.js.map": "/static/js/413.b804ea46.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.512723f5.css",
-    "static/js/main.8a099d55.js"
+    "static/css/main.0d1e3acc.css",
+    "static/js/main.3e32fe5e.js"
   ]
 }

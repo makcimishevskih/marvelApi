@@ -12,9 +12,11 @@ const ComicsPage = lazy(() => import("../pages/ComicsPage"));
 const Page404 = lazy(() => import("../pages/Page404"));
 const SinglePage = lazy(() => import("../pages/SinglePage"));
 
+// ПРИ КЛИКЕ НА ГЕРОЯ СКРОЛЛ ТУ ИНФО
+// СТРЕЛКА К НАЧАЛУ
+
 const App = () => {
-  const { charList, search, setCharList, updateCharList, clearCharList } =
-    useUpdateList();
+  const { updateCharList, clearCharList } = useUpdateList();
 
   const location = useLocation();
   return (
