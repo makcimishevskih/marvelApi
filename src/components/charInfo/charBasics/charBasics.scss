@@ -4,6 +4,7 @@
   &__basics {
     display: grid;
     grid-template-columns: 150px auto;
+    grid-template-rows: 150px;
     column-gap: 20px;
     .img__wrapper {
       img {
@@ -32,10 +33,6 @@
     font-size: 18px;
     line-height: 24px;
     margin-top: 15px;
-    &-list {
-      //   position: relative;
-      //   margin-top: 10px;
-    }
     &-item {
       width: 100%;
       padding: 0px 10px;
@@ -49,30 +46,5 @@
     font-size: 18px;
     line-height: 24px;
     text-align: center;
-  }
-}
-
-@media (max-width: 768px) {
-  .char {
-    &__basics {
-      .img__wrapper {
-        img {
-        }
-      }
-    }
-    &__btns {
-      a:nth-child(2) {
-      }
-    }
-    &__descr {
-    }
-    &__comics {
-      &-list {
-      }
-      &-item {
-      }
-    }
-    &__select {
-    }
   }
 }

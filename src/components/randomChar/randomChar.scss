@@ -98,13 +98,12 @@
 
 @media (max-width: 480px) {
   .randomchar {
-    padding: 20px;
-
     &__block {
       display: grid;
       grid-template-columns: none;
-      grid-template-rows: 200px minmax(150px, auto);
-      place-items: center;
+      grid-template-rows: 220px 120px;
+      justify-items: center;
+      row-gap: 10px;
       padding: 20px;
     }
     &__img {
@@ -115,6 +114,7 @@
       display: block;
     }
     &__name {
+      text-align: center;
       margin-bottom: 5px;
     }
     &__descr {

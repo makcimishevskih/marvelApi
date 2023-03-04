@@ -10,6 +10,8 @@ import useMarvelService from "../../services/MarvelService";
 import Preloader from "../preloader/Preloader";
 import Error from "../error/Error";
 
+//NAVLINK ПЕРЕХОД НА ВЫБРАННОГО ГЕРОЯ
+
 const CharList = ({ selectedCharId, updateSelectedChar }) => {
   const { loader, error, getAllCharactersData } = useMarvelService();
   const { charList, search, setCharList, updateCharList, clearCharList } =
@@ -92,9 +94,7 @@ const CharList = ({ selectedCharId, updateSelectedChar }) => {
   };
 
   const getMoreChars = (offset) => {
-    // flushSync(() =>
     updateOffset();
-    // );
     setBtndisabled(!btndisabled);
     getAllCharacters(offset);
   };
@@ -102,7 +102,7 @@ const CharList = ({ selectedCharId, updateSelectedChar }) => {
   const duration = 800;
 
   const chars = (
-    <TransitionGroup className="char__flex">
+    <TransitionGroup className="char__grid">
       {charList.map((el) => {
         const imageStyle =
           el.thumbnail ===
@@ -121,9 +121,8 @@ const CharList = ({ selectedCharId, updateSelectedChar }) => {
               tabIndex="0"
               className={itemClazz}
             >
-              <div>
-                <img style={imageStyle} src={el.thumbnail} alt={el.name} />
-              </div>
+              <img style={imageStyle} src={el.thumbnail} alt={el.name} />
+
               <div className="char__name">{el.title}</div>
             </li>
           </CSSTransition>

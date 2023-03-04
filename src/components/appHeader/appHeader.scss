@@ -1,42 +1,86 @@
-@import '../../style/variables.scss';
+@import "../../style/variables.scss";
 
 .app {
-    &__header {
-        display: flex;
-        justify-content: space-between;
-    }
+  &__header {
+    display: flex;
+    justify-content: space-between;
+  }
 
+  &__title {
+    font-size: 28px;
+    font-weight: bold;
+
+    span {
+      color: $main-color;
+    }
+  }
+
+  &__menu {
+    ul {
+      display: flex;
+      justify-content: space-between;
+
+      font-size: 24px;
+      line-height: 32px;
+      font-weight: bold;
+
+      li {
+        margin: 0 8px;
+
+        a {
+          color: $main-color;
+          &:hover {
+            opacity: 0.5;
+          }
+
+          &.active {
+          }
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 600px) {
+  .app {
     &__title {
-        font-weight: bold;
-        font-size: 28px;
-        line-height: 37px;
-
-        span {
-            color: $main-color;
-        }
+      font-size: 24px;
     }
-
     &__menu {
-        ul {
-            display: flex;
-            justify-content: space-between;
-            font-weight: bold;
-            font-size: 24px;
-            line-height: 32px;
-
-            .slash {}
-
-            li {
-                margin: 0 8px;
-
-                a:hover {
-                    color: $main-color;
-                }
-
-                a.active {
-                    color: $main-color;
-                }
-            }
-        }
+      ul {
+        font-size: 22px;
+      }
     }
+  }
+}
+
+@media (max-width: 485px) {
+  .app {
+    &__header {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    &__title {
+      font-size: 22px;
+    }
+    &__menu {
+      ul {
+        font-size: 22px;
+      }
+    }
+  }
+}
+
+@media (max-width: 320px) {
+  .app {
+    &__title {
+      font-size: 24px;
+    }
+    &__menu {
+      ul {
+        font-size: 22px;
+      }
+    }
+  }
 }
