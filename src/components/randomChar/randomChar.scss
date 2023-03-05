@@ -4,7 +4,7 @@
   display: grid;
   grid-template-columns: 55% 45%;
 
-  box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.35);
+  box-shadow: 5px 0px 20px rgba(0, 0, 0, 0.35);
   &__block {
     display: grid;
     grid-template-columns: 180px auto;
@@ -20,10 +20,11 @@
     object-fit: cover;
   }
   &__info {
-    min-height: 200px;
     display: grid;
-    grid-template-rows: 50px auto 100px;
+    grid-template-rows: 50px auto auto;
     align-items: center;
+
+    min-height: 150px;
   }
   &__name {
     font-size: 22px;
@@ -56,7 +57,8 @@
       z-index: 2;
 
       max-width: 100px;
-      margin-top: 10px;
+
+      margin: 10px auto 0;
     }
   }
   &__title {
@@ -67,7 +69,7 @@
     line-height: 32px;
     letter-spacing: -0.045em;
     font-weight: bold;
-    color: #ffffff;
+    color: #fff;
 
     &:nth-child(1) {
       margin-bottom: 25px;
@@ -99,23 +101,26 @@
 @media (max-width: 480px) {
   .randomchar {
     &__block {
-      display: grid;
       grid-template-columns: none;
-      grid-template-rows: 220px 120px;
+      grid-template-rows: 1fr minmax(120px, auto);
       justify-items: center;
-      row-gap: 10px;
+      gap: 0 15px;
+
       padding: 20px;
     }
     &__img {
-      width: 200px;
-      height: 200px;
+      width: 250px;
+      height: 250px;
     }
     &__info {
       display: block;
+
+      margin-top: 15px;
     }
     &__name {
-      text-align: center;
       margin-bottom: 5px;
+
+      text-align: center;
     }
     &__descr {
       margin-bottom: 20px;
@@ -136,6 +141,10 @@
       display: flex;
       flex-direction: column;
       gap: 20px;
+    }
+    &__img {
+      width: 200px;
+      height: 200px;
     }
   }
 }

@@ -28,12 +28,13 @@
         margin: 0 8px;
 
         a {
-          color: $main-color;
+          color: black;
           &:hover {
             opacity: 0.5;
           }
 
           &.active {
+            color: $main-color;
           }
         }
       }

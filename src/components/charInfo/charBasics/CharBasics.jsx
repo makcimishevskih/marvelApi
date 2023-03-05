@@ -1,32 +1,35 @@
+import { useEffect, useState } from "react";
 import "./charBasics.scss";
+
+// let sliced = getComicsTransform(comics);
+
+function getComicsTransform(arr) {
+  let newArr;
+  if (arr.length === 0) {
+    newArr = "Sorry... We dont have comics with this character...";
+  } else if (arr.length > 10) {
+    newArr = arr.slice(0, 10);
+  } else {
+    newArr = arr.slice();
+  }
+  return newArr;
+}
 
 const CharBasics = ({ character }) => {
   const { description, comics, title, thumbnail, wiki, homepage } = character;
+  const [isOpen, setIsOpen] = useState(false);
 
-  const getComicsTransform = (arr) => {
-    let newArr;
-    if (arr.length === 0) {
-      newArr = "Sorry... We dont have comics with this character...";
-    } else if (arr.length > 10) {
-      newArr = arr.slice(0, 10);
-    } else {
-      newArr = arr;
-    }
-    return newArr;
-  };
-
-  let sliced = getComicsTransform(comics);
-
-  const charComics =
-    typeof sliced === "string"
-      ? sliced
-      : sliced.map((el, i) => {
-          return (
-            <li key={`${el}_${i}`} className="char__comics-item">
-              {el}
-            </li>
-          );
-        });
+  const charComics = !!comics.length ? (
+    comics.map((el, i) => {
+      return (
+        <li key={`${el}_${i}`} className="char__comics-item">
+          {el}
+        </li>
+      );
+    })
+  ) : (
+    <div>No comics</div>
+  );
 
   return (
     <>
@@ -56,10 +59,30 @@ const CharBasics = ({ character }) => {
           </div>
         </div>
       </div>
+
       <div className="char__descr">{description}</div>
 
       <div className="char__comics">Comics:</div>
-      <ul className="char__comics-list">{charComics}</ul>
+      <ul
+        className={
+          charComics.length > 5 && !isOpen && Array.isArray(charComics)
+            ? "char__comics-list"
+            : "char__comics-list sliced"
+        }
+      >
+        {charComics}
+      </ul>
+
+      {comics.length > 5 ? (
+        <div
+          className={
+            isOpen
+              ? "char__comics-button down-button"
+              : "char__comics-button up-button"
+          }
+          onClick={() => setIsOpen((isOpen) => !isOpen)}
+        ></div>
+      ) : null}
     </>
   );
 };

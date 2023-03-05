@@ -1,11 +1,14 @@
 import "./charInfo.scss";
 import { useEffect, useState } from "react";
-import Preloader from "../preloader/Preloader";
-import Error from "../error/Error";
-import CharBasics from "./charBasics/CharBasics";
-import Skeleton from "../skeleton/Skeleton";
-import useMarvelService from "../../services/MarvelService";
 import { CSSTransition } from "react-transition-group";
+
+import useMarvelService from "../../services/MarvelService";
+
+import Error from "../error/Error";
+import Skeleton from "../skeleton/Skeleton";
+import Preloader from "../preloader/Preloader";
+import CharBasics from "./charBasics/CharBasics";
+import { useCallback } from "react";
 
 const CharInfo = ({ selectedCharId }) => {
   const { loader, error, getCharacterByIdData, clearError } =
@@ -25,14 +28,14 @@ const CharInfo = ({ selectedCharId }) => {
     setCharacter(() => character);
   };
 
-  const getCharacter = () => {
+  const getCharacter = useCallback(() => {
     if (!selectedCharId) {
       return;
     }
     clearError();
     getCharacterByIdData(selectedCharId).then((data) => updateCharacter(data));
     setShowInfo(true);
-  };
+  }, [selectedCharId, clearError]);
 
   const preloader = loader && <Preloader />;
   const isError = error && <Error />;
@@ -50,7 +53,7 @@ const CharInfo = ({ selectedCharId }) => {
       timeout={duration}
       classNames="my-info"
     >
-      <div className="char__info">
+      <div id="info" className="char__info">
         {char}
         {skeleton}
         {preloader}

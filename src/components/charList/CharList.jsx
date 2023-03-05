@@ -1,5 +1,4 @@
 import "./charList.scss";
-// import { flushSync } from "react-dom";
 import { useEffect, useState } from "react";
 import { useUpdateList } from "../../hooks/http.hook";
 import { TransitionGroup, CSSTransition } from "react-transition-group";
@@ -10,24 +9,24 @@ import useMarvelService from "../../services/MarvelService";
 import Preloader from "../preloader/Preloader";
 import Error from "../error/Error";
 
-//NAVLINK ПЕРЕХОД НА ВЫБРАННОГО ГЕРОЯ
-
 const CharList = ({ selectedCharId, updateSelectedChar }) => {
   const { loader, error, getAllCharactersData } = useMarvelService();
   const { charList, search, setCharList, updateCharList, clearCharList } =
     useUpdateList();
 
+  const offsetFromStorage = +window.localStorage.getItem("offset") || 660;
+
   const [newItemLoading, setNewItemLoading] = useState(false);
   const [btndisabled, setBtndisabled] = useState(true);
   const [total, setTotal] = useState(1559);
-  const [offset, setOffset] = useState(
-    +window.localStorage.getItem("offset") || 660
-  );
+  const [offset, setOffset] = useState(offsetFromStorage);
 
   useEffect(() => {
-    if (!window.localStorage.getItem("offset")) {
-      window.localStorage.setItem("offset", offset);
-    }
+    // if (!window.localStorage.getItem("offset")) {
+    // if (offset !== 660) {
+    //   window.localStorage.setItem("offset", offset);
+    // }
+
     getAllCharacters(false);
   }, []);
 
@@ -37,12 +36,14 @@ const CharList = ({ selectedCharId, updateSelectedChar }) => {
       return;
     }
     window.localStorage.setItem("offset", offset - 9);
-  }, [offset]);
+  }, [offset, total]);
 
   const getAllCharacters = (initial = false) => {
-    initial ? setNewItemLoading(true) : setNewItemLoading(false);
     getAllCharactersData(offset)
       .then((charListData) => updateCharList(charListData))
+      .then(() =>
+        initial ? setNewItemLoading(true) : setNewItemLoading(false)
+      )
       .then(() => finallyUpdate());
   };
 
@@ -63,40 +64,46 @@ const CharList = ({ selectedCharId, updateSelectedChar }) => {
     setOffset(offset + 9);
   };
 
+  // const handlerOnScroll = () => {
+  //     if (document.documentElement.scrollTop === document.documentElement.scrollHeight - document.documentElement.clientHeight && document.documentElement.scrollTop !== 0) {
+  //         getAllCharacters();}}
+
   // useEffect(() => {
   //     if (offset === total) { return;}
   //     window.addEventListener('scroll', handlerOnScroll);
   //     return () => { window.removeEventListener('scroll', handlerOnScroll);} }, [offset])
 
-  // const handlerOnScroll = () => {
-  //     if (document.documentElement.scrollTop === document.documentElement.scrollHeight - document.documentElement.clientHeight && document.documentElement.scrollTop !== 0) {
-  //         getAllCharacters();}}
-
-  const getCharId = (id) => {
+  const handleClick = (id) => {
     updateSelectedChar(id);
+    scrollToElement("info");
+  };
+
+  const scrollToElement = (id) => {
+    const section = document.querySelector(`#${id}`);
+    section.scrollIntoView({ behavior: "smooth", block: "start" });
   };
 
   const chooseElemFromKeys = (e) => {
     if (e.key === "Enter" || e.key === " ") {
+      const { target } = e;
       e.preventDefault();
-      const el = e.target;
-      const charList = document.querySelectorAll(".char__item");
-      const selectedElemId = +el.getAttribute("id");
+      // const charList = document.querySelectorAll(".char__item");
+      // const selectedElemId = +target.getAttribute("id");
 
-      charList.forEach((item) => {
-        item.classList.remove("active");
-      });
+      // charList.forEach((item) => {
+      //   item.classList.remove("active");
+      // });
 
-      el.classList.add("active");
-      getCharId(selectedElemId);
-      el.blur();
+      // target.classList.add("active");
+      handleClick(selectedCharId);
+      target.blur();
     }
   };
 
   const getMoreChars = (offset) => {
+    getAllCharacters(offset);
     updateOffset();
     setBtndisabled(!btndisabled);
-    getAllCharacters(offset);
   };
 
   const duration = 800;
@@ -115,7 +122,7 @@ const CharList = ({ selectedCharId, updateSelectedChar }) => {
         return (
           <CSSTransition key={el.id} timeout={duration} classNames="my-char">
             <li
-              onClick={() => getCharId(el.id)}
+              onClick={() => handleClick(el.id)}
               onKeyDown={chooseElemFromKeys}
               id={el.id}
               tabIndex="0"
@@ -131,25 +138,8 @@ const CharList = ({ selectedCharId, updateSelectedChar }) => {
     </TransitionGroup>
   );
 
-  const checkPreloader = loader && charList.length === 0 && !newItemLoading && (
-    <Preloader />
-  );
-  const checkErrors = error && <Error />;
-
-  // const btnStyles = (
-  //     <button
-  //         disabled={btndisabled}
-  //         onClick={() => getMoreChars(offset)}
-  //         className='button button__main button__long'>
-  //         <div className='inner'>load more</div>
-  //     </button>
-  // );
-
-  return (
-    <div className="char__list">
-      {checkPreloader}
-      {checkErrors}
-      {chars}
+  const button =
+    total !== 1558 ? (
       <button
         disabled={btndisabled}
         onClick={() => getMoreChars(offset)}
@@ -157,6 +147,23 @@ const CharList = ({ selectedCharId, updateSelectedChar }) => {
       >
         <div className="inner">load more</div>
       </button>
+    ) : (
+      <button disabled={true} className="button button__main button__long">
+        <div className="inner">no more chars</div>
+      </button>
+    );
+
+  const checkPreloader = loader && charList.length === 0 && !newItemLoading && (
+    <Preloader />
+  );
+  const checkErrors = error && <Error />;
+
+  return (
+    <div className="char__list">
+      {checkPreloader}
+      {checkErrors}
+      {chars}
+      {button}
     </div>
   );
 };
