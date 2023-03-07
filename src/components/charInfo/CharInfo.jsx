@@ -56,6 +56,7 @@ const CharInfo = ({ selectedCharId }) => {
       <div id="info" className="char__info">
         {char}
         {skeleton}
+
         {preloader}
         {isError}
       </div>

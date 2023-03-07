@@ -1,19 +1,17 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import "./charBasics.scss";
 
-// let sliced = getComicsTransform(comics);
-
-function getComicsTransform(arr) {
-  let newArr;
-  if (arr.length === 0) {
-    newArr = "Sorry... We dont have comics with this character...";
-  } else if (arr.length > 10) {
-    newArr = arr.slice(0, 10);
-  } else {
-    newArr = arr.slice();
-  }
-  return newArr;
-}
+// function getComicsTransform(arr) {
+//   let newArr;
+//   if (arr.length === 0) {
+//     newArr = "Sorry... We dont have comics with this character...";
+//   } else if (arr.length > 10) {
+//     newArr = arr.slice(0, 10);
+//   } else {
+//     newArr = arr.slice();
+//   }
+//   return newArr;
+// }
 
 const CharBasics = ({ character }) => {
   const { description, comics, title, thumbnail, wiki, homepage } = character;
@@ -30,6 +28,12 @@ const CharBasics = ({ character }) => {
   ) : (
     <div>No comics</div>
   );
+
+  const handleClick = () => {
+    setIsOpen((isOpen) => !isOpen);
+    const section = document.querySelector(`#info`);
+    section.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
 
   return (
     <>
@@ -65,7 +69,7 @@ const CharBasics = ({ character }) => {
       <div className="char__comics">Comics:</div>
       <ul
         className={
-          charComics.length > 5 && !isOpen && Array.isArray(charComics)
+          charComics?.length > 5 && !isOpen
             ? "char__comics-list"
             : "char__comics-list sliced"
         }
@@ -80,7 +84,7 @@ const CharBasics = ({ character }) => {
               ? "char__comics-button down-button"
               : "char__comics-button up-button"
           }
-          onClick={() => setIsOpen((isOpen) => !isOpen)}
+          onClick={handleClick}
         ></div>
       ) : null}
     </>

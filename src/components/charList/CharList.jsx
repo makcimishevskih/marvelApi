@@ -1,5 +1,5 @@
 import "./charList.scss";
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
 import { useUpdateList } from "../../hooks/http.hook";
 import { TransitionGroup, CSSTransition } from "react-transition-group";
 import PropTypes from "prop-types";
@@ -9,69 +9,69 @@ import useMarvelService from "../../services/MarvelService";
 import Preloader from "../preloader/Preloader";
 import Error from "../error/Error";
 
+// import { useCallback } from "react";
+
 const CharList = ({ selectedCharId, updateSelectedChar }) => {
   const { loader, error, getAllCharactersData } = useMarvelService();
-  const { charList, search, setCharList, updateCharList, clearCharList } =
-    useUpdateList();
+  const { charList, updateCharList } = useUpdateList();
 
-  const offsetFromStorage = +window.localStorage.getItem("offset") || 660;
+  // const offsetFromStorage = +window.localStorage.getItem("offset") || 660;
+  const offsetFromStorage = +window.localStorage.getItem("offset") || 1530;
 
-  const [newItemLoading, setNewItemLoading] = useState(false);
   const [btndisabled, setBtndisabled] = useState(true);
-  const [total, setTotal] = useState(1559);
+  const [total] = useState(1559);
   const [offset, setOffset] = useState(offsetFromStorage);
 
-  useEffect(() => {
-    // if (!window.localStorage.getItem("offset")) {
-    // if (offset !== 660) {
-    //   window.localStorage.setItem("offset", offset);
-    // }
+  console.log(
+    "storage: ",
+    +window.localStorage.getItem("offset"),
+    "offset",
+    offset,
+    "total: ",
+    total
+  );
 
-    getAllCharacters(false);
-  }, []);
-
-  useEffect(() => {
-    if (+window.localStorage.getItem("offset") >= 1549) {
-      window.localStorage.setItem("offset", total - 1);
-      return;
-    }
-    window.localStorage.setItem("offset", offset - 9);
-  }, [offset, total]);
-
-  const getAllCharacters = (initial = false) => {
+  const getAllCharacters = (offset) => {
     getAllCharactersData(offset)
       .then((charListData) => updateCharList(charListData))
-      .then(() =>
-        initial ? setNewItemLoading(true) : setNewItemLoading(false)
-      )
-      .then(() => finallyUpdate());
+      .then(() => setBtndisabled(false));
   };
 
-  const finallyUpdate = () => {
-    updateOffset();
-    setBtndisabled(false);
+  // const getMoreChars = () => { // передаать или нет offset
+  // передаать или нет offset
+  const getMoreChars = (offset) => {
+    console.log("getMoreCharsCLick");
+    if (offset === total) return;
+    // getAllCharacters(offset); // useEffect с offset
+    updateOffset(); //
+    setBtndisabled((isBtnDisabled) => !isBtnDisabled);
   };
 
   const updateOffset = () => {
-    if (offset >= total) {
-      return;
-    }
-    if (total - offset < 9) {
+    // if (offset === total) return;
+
+    if (offset !== total) {
+      setOffset((offset) => offset + 9);
+    } else if (total - offset < 9) {
+      console.log(22);
       const difference = offset + (total - offset);
       setOffset(difference);
-      return;
     }
-    setOffset(offset + 9);
   };
 
-  // const handlerOnScroll = () => {
-  //     if (document.documentElement.scrollTop === document.documentElement.scrollHeight - document.documentElement.clientHeight && document.documentElement.scrollTop !== 0) {
-  //         getAllCharacters();}}
-
-  // useEffect(() => {
-  //     if (offset === total) { return;}
-  //     window.addEventListener('scroll', handlerOnScroll);
-  //     return () => { window.removeEventListener('scroll', handlerOnScroll);} }, [offset])
+  const handlerOnScroll = () => {
+    if (offset === total) return;
+    if (
+      document.documentElement.scrollTop ===
+        document.documentElement.scrollHeight -
+          document.documentElement.clientHeight &&
+      document.documentElement.scrollTop !== 0
+    ) {
+      console.log("handlesctoll");
+      updateOffset();
+      // getAllCharacters(offset); // useEffect с offset
+    }
+  };
 
   const handleClick = (id) => {
     updateSelectedChar(id);
@@ -84,27 +84,40 @@ const CharList = ({ selectedCharId, updateSelectedChar }) => {
   };
 
   const chooseElemFromKeys = (e) => {
-    if (e.key === "Enter" || e.key === " ") {
-      const { target } = e;
+    const { target, keyCode } = e;
+
+    if (keyCode === 13 || keyCode === 32) {
       e.preventDefault();
-      // const charList = document.querySelectorAll(".char__item");
-      // const selectedElemId = +target.getAttribute("id");
+      const targetId = +target.id;
 
-      // charList.forEach((item) => {
-      //   item.classList.remove("active");
-      // });
-
-      // target.classList.add("active");
-      handleClick(selectedCharId);
+      handleClick(targetId);
       target.blur();
     }
   };
 
-  const getMoreChars = (offset) => {
+  useEffect(() => {
+    console.log("useeffect [offset]");
     getAllCharacters(offset);
-    updateOffset();
-    setBtndisabled(!btndisabled);
-  };
+  }, [offset]);
+
+  useEffect(() => {
+    if (+window.localStorage.getItem("offset") >= total - 10) {
+      window.localStorage.setItem("offset", total - 1);
+      // window.localStorage.setItem("offset", total);
+    } else {
+      window.localStorage.setItem("offset", offset - 9);
+    }
+  }, [offset]);
+
+  useEffect(() => {
+    if (offset + 1 === total) {
+      return;
+    }
+    window.addEventListener("scroll", handlerOnScroll);
+    return () => {
+      window.removeEventListener("scroll", handlerOnScroll);
+    };
+  }, []);
 
   const duration = 800;
 
@@ -116,7 +129,7 @@ const CharList = ({ selectedCharId, updateSelectedChar }) => {
           "http://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available.jpg"
             ? { objectFit: "fill" }
             : { objectFit: "cover" };
-        const itemClazz =
+        const itemClass =
           selectedCharId === el.id ? "char__item active" : "char__item";
 
         return (
@@ -126,7 +139,7 @@ const CharList = ({ selectedCharId, updateSelectedChar }) => {
               onKeyDown={chooseElemFromKeys}
               id={el.id}
               tabIndex="0"
-              className={itemClazz}
+              className={itemClass}
             >
               <img style={imageStyle} src={el.thumbnail} alt={el.name} />
 
@@ -139,7 +152,7 @@ const CharList = ({ selectedCharId, updateSelectedChar }) => {
   );
 
   const button =
-    total !== 1558 ? (
+    offset !== total ? (
       <button
         disabled={btndisabled}
         onClick={() => getMoreChars(offset)}
@@ -152,15 +165,13 @@ const CharList = ({ selectedCharId, updateSelectedChar }) => {
         <div className="inner">no more chars</div>
       </button>
     );
+  const preloader = loader && charList.length === 0 ? <Preloader /> : null;
 
-  const checkPreloader = loader && charList.length === 0 && !newItemLoading && (
-    <Preloader />
-  );
   const checkErrors = error && <Error />;
 
   return (
     <div className="char__list">
-      {checkPreloader}
+      {preloader}
       {checkErrors}
       {chars}
       {button}

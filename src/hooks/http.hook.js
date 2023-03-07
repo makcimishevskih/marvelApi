@@ -3,6 +3,7 @@ import { useState, useEffect, useCallback } from "react";
 export const useHttp = () => {
   const [loader, setLoader] = useState(false);
   const [error, setError] = useState(null);
+  let counter = 0;
 
   const request = useCallback(
     async (
@@ -22,9 +23,16 @@ export const useHttp = () => {
           headers,
         });
         if (!response.ok) {
-          throw new Error(
-            `Could not fetch ${url} , status: ${response.status}`
-          );
+          counter++;
+          if (counter === 3) {
+            counter = 0;
+            throw new Error(
+              `Could not fetch ${url} , status: ${response.status}`
+            );
+          } else {
+            setTimeout(() => {}, 5000);
+            return;
+          }
         }
 
         const data = await response.json();
@@ -32,6 +40,7 @@ export const useHttp = () => {
 
         return data;
       } catch (e) {
+        console.log("counter catch: ", counter);
         setLoader(false);
         setError(e.message);
         throw e;
@@ -82,5 +91,6 @@ export const useUpdateList = () => {
     charList,
     setCharList,
     updateCharList,
+    clearCharList,
   };
 };
