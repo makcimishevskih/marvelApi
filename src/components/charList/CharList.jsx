@@ -9,27 +9,15 @@ import useMarvelService from "../../services/MarvelService";
 import Preloader from "../preloader/Preloader";
 import Error from "../error/Error";
 
-// import { useCallback } from "react";
-
 const CharList = ({ selectedCharId, updateSelectedChar }) => {
   const { loader, error, getAllCharactersData } = useMarvelService();
   const { charList, updateCharList } = useUpdateList();
 
-  // const offsetFromStorage = +window.localStorage.getItem("offset") || 660;
   const offsetFromStorage = +window.localStorage.getItem("offset") || 1530;
 
   const [btndisabled, setBtndisabled] = useState(true);
   const [total] = useState(1559);
   const [offset, setOffset] = useState(offsetFromStorage);
-
-  console.log(
-    "storage: ",
-    +window.localStorage.getItem("offset"),
-    "offset",
-    offset,
-    "total: ",
-    total
-  );
 
   const getAllCharacters = (offset) => {
     getAllCharactersData(offset)
@@ -37,23 +25,16 @@ const CharList = ({ selectedCharId, updateSelectedChar }) => {
       .then(() => setBtndisabled(false));
   };
 
-  // const getMoreChars = () => { // передаать или нет offset
-  // передаать или нет offset
   const getMoreChars = (offset) => {
-    console.log("getMoreCharsCLick");
     if (offset === total) return;
-    // getAllCharacters(offset); // useEffect с offset
-    updateOffset(); //
+    updateOffset();
     setBtndisabled((isBtnDisabled) => !isBtnDisabled);
   };
 
   const updateOffset = () => {
-    // if (offset === total) return;
-
     if (offset !== total) {
       setOffset((offset) => offset + 9);
     } else if (total - offset < 9) {
-      console.log(22);
       const difference = offset + (total - offset);
       setOffset(difference);
     }
@@ -67,9 +48,7 @@ const CharList = ({ selectedCharId, updateSelectedChar }) => {
           document.documentElement.clientHeight &&
       document.documentElement.scrollTop !== 0
     ) {
-      console.log("handlesctoll");
       updateOffset();
-      // getAllCharacters(offset); // useEffect с offset
     }
   };
 
@@ -96,14 +75,12 @@ const CharList = ({ selectedCharId, updateSelectedChar }) => {
   };
 
   useEffect(() => {
-    console.log("useeffect [offset]");
     getAllCharacters(offset);
   }, [offset]);
 
   useEffect(() => {
     if (+window.localStorage.getItem("offset") >= total - 10) {
       window.localStorage.setItem("offset", total - 1);
-      // window.localStorage.setItem("offset", total);
     } else {
       window.localStorage.setItem("offset", offset - 9);
     }
@@ -152,7 +129,7 @@ const CharList = ({ selectedCharId, updateSelectedChar }) => {
   );
 
   const button =
-    offset !== total ? (
+    offset !== total - 1 ? (
       <button
         disabled={btndisabled}
         onClick={() => getMoreChars(offset)}

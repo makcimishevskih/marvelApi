@@ -40,7 +40,7 @@ export const useHttp = () => {
 
         return data;
       } catch (e) {
-        console.log("counter catch: ", counter);
+        
         setLoader(false);
         setError(e.message);
         throw e;

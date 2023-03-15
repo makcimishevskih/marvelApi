@@ -3,7 +3,6 @@ import "./App.scss";
 import { Route, Routes, useLocation } from "react-router-dom";
 import { Suspense, lazy } from "react";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
-// import { useUpdateList } from "../../hooks/http.hook";
 
 import AppHeader from "../appHeader/AppHeader";
 import Preloader from "../preloader/Preloader";
@@ -12,10 +11,6 @@ const MainPage = lazy(() => import("../../pages/MainPage"));
 const ComicsPage = lazy(() => import("../../pages/ComicsPage"));
 const SingleByIdPage = lazy(() => import("../../pages/SingleByIdPage"));
 const Page404 = lazy(() => import("../../pages/Page404"));
-
-// ПРИ КЛИКЕ НА ГЕРОЯ СКРОЛЛ ТУ ИНФО
-// СТРЕЛКА К НАЧАЛУ
-// СДЕЛАТЬ ЛОКАЛСТОРАЖ В КОМИКСАХ
 
 const App = () => {
   const location = useLocation();

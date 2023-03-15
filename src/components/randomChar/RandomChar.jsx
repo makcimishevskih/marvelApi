@@ -98,9 +98,4 @@ const RandomChar = () => {
   );
 };
 
-// RandomChar.propTypes = {
-//     randomChar: PropTypes.object,
-//     updateRandomChar: PropTypes.func,
-// }
-
 export default RandomChar;

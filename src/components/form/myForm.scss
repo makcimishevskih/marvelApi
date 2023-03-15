@@ -1,5 +1,5 @@
 .form {
-  width: 80%;
+  width: 100%;
 
   padding: 20px;
   margin: 0 auto;
@@ -57,29 +57,21 @@
 
 @media (max-width: 805px) {
   .form {
-    // align-self: start;
-  }
-}
-
-@media (max-width: 768px) {
-  .form {
+    .input__wrapper,
     .hero-page__wrapper {
-    }
-    .input__wrapper {
+      margin-right: 20px;
     }
   }
-}
-
-@media (max-width: 585px) {
 }
 
 @media (max-width: 480px) {
   .form {
+    .input__wrapper {
+      display: flex;
+      flex-direction: column;
+    }
+    label {
+      font-size: 20px;
+    }
   }
-  .input__wrapper {
-    display: flex;
-    flex-direction: column;
-  }
-}
-@media (max-width: 320px) {
 }

@@ -1,18 +1,6 @@
 import { useState } from "react";
 import "./charBasics.scss";
 
-// function getComicsTransform(arr) {
-//   let newArr;
-//   if (arr.length === 0) {
-//     newArr = "Sorry... We dont have comics with this character...";
-//   } else if (arr.length > 10) {
-//     newArr = arr.slice(0, 10);
-//   } else {
-//     newArr = arr.slice();
-//   }
-//   return newArr;
-// }
-
 const CharBasics = ({ character }) => {
   const { description, comics, title, thumbnail, wiki, homepage } = character;
   const [isOpen, setIsOpen] = useState(false);

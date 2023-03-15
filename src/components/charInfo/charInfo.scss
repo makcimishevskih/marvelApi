@@ -33,7 +33,7 @@
   .char__info-block {
     position: static;
     margin: 0 auto 20px;
-    width: 100%;
+    width: 80%;
   }
 }
 
@@ -59,6 +59,8 @@
 
 @media (max-width: 480px) {
   .char__info-block {
+    text-align: center;
+    width: 100%;
     .char__info {
       &-name {
       }

@@ -17,8 +17,6 @@ const MyInput = ({ label, request = [], ...props }) => {
       <div className="error">{meta.error}</div>
     ) : null;
 
-  console.log(request);
-
   const noCharError =
     field.value &&
     !loader &&
@@ -59,7 +57,6 @@ const MyInput = ({ label, request = [], ...props }) => {
 export default MyInput;
 
 MyInput.propTypes = {
-  // label, request, ...props
   label: PropTypes.string,
   request: PropTypes.array,
 
