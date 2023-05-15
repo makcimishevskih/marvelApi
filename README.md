@@ -1,4 +1,5 @@
-Marvel App
+Marvel App.
+
 Stack: HTML, SASS, JavaScript, ReactJS
 Api: Marvel Api
 
